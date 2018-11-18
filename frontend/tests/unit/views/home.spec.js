@@ -5,14 +5,23 @@ import UserList from '@/components/UserList.vue'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
-let wrapper, state, store
+let wrapper, state, actions, store
 
 beforeEach(() => {
   state = {
     users: [{ name: 'Arthur' }, { name: 'Robert' }]
   }
+  actions = {
+    fetchUsers: jest.fn()
+  }
   store = new Vuex.Store({
-    state
+    modules: {
+      user: {
+        namespaced: true,
+        state,
+        actions
+      }
+    }
   })
   wrapper = shallowMount(Home, {
     localVue,
@@ -32,4 +41,8 @@ it('should render UserList component', () => {
 it('should pass users prop to UserList component', () => {
   const userList = wrapper.find(UserList)
   expect(userList.vm.users).toBe(state.users)
+})
+
+it('should fetch users when the component created', () => {
+  expect(actions.fetchUsers).toHaveBeenCalled()
 })
