@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render the component 1`] = `
+<div>
+  <p>user list</p>
+  <useritem-stub user="[object Object]"></useritem-stub>
+  <useritem-stub user="[object Object]"></useritem-stub>
+</div>
+`;
