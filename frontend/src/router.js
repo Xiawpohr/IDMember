@@ -18,12 +18,6 @@ export default new Router({
       path: '/friends',
       name: 'friend',
       component: Friends
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () =>
-        import(/* webpackChunkName: 'about' */ './views/About.vue')
     }
   ]
 })
