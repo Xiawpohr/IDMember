@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Your Profile</h1>
-    <ProfileForm :user="currentUser"/>
+    <ProfileForm :user="currentUser" @submitted="saveUser" />
   </div>
 </template>
 
@@ -14,7 +14,15 @@ export default {
   },
   data() {
     return {
-      currentUser: {}
+      currentUser: {
+        firstName: 'Arthur',
+        lastName: 'Hsiao'
+      }
+    }
+  },
+  methods: {
+    saveUser(user) {
+      
     }
   }
 }

@@ -22,7 +22,7 @@ export default {
       this.$store.dispatch('friend/fetchAll')
     }
   },
-  created () {
+  created() {
     this.fetchFriends()
   }
 }

@@ -3,7 +3,7 @@ import Profile from '@/views/Profile.vue'
 import ProfileForm from '@/components/ProfileForm.vue'
 
 const localVue = createLocalVue()
-
+const user = { firstName: 'Arthur', lastName: 'Hsiao' }
 let wrapper
 
 beforeEach(() => {
@@ -22,8 +22,17 @@ it('should render ProfileForm component', () => {
 })
 
 it('should pass user prop to the ProfileForm component', () => {
-  const user = { name: 'Arthur', gender: 'male' }
   const profileForm = wrapper.find(ProfileForm)
   wrapper.setData({ currentUser: user })
   expect(profileForm.vm.user).toEqual(user)
+})
+
+it('should save user information when recieving submmited', () => {
+  const saveUser = jest.fn()
+  const profileForm = wrapper.find(ProfileForm)
+  wrapper.setData({ currentUser: user })
+  wrapper.setMethods({ saveUser })
+  profileForm.vm.$emit('submitted', user)
+  expect(saveUser).toHaveBeenCalled()
+  expect(saveUser.mock.calls[0][0]).toEqual(user)
 })
