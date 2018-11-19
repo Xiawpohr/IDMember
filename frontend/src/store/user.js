@@ -1,5 +1,5 @@
 import * as types from './mutationTypes'
-import * as userApi from '@/api/user.js'
+import userApi from '@/api/user.js'
 
 const state = {
   isFetchingAllUsers: false,
