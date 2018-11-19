@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="$emit('submitted', auth)">
-    <input type="text" placeholder="Email" v-model="Email">
+    <input type="text" placeholder="Email" v-model="email">
     <input type="password" placeholder="Password" v-model="password">
     <button type="submit">Log In</button>
   </form>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       email: '',
       password: ''

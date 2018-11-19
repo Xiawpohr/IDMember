@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>IDMember</h1>
-    <LoginForm @submitted="login"/>
+    <LoginForm @submitted="login" />
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     login(auth) {
-
+      this.$store.dispatch('auth/login', auth)
     }
   }
 }
