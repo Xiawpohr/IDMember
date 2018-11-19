@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render the component 1`] = `
+<div>
+  <h1>Your friends are here! You can give them some money</h1>
+  <userlist-stub users="[object Object],[object Object]"></userlist-stub>
+</div>
+`;

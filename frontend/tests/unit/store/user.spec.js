@@ -1,7 +1,7 @@
 import flushPromises from 'flush-promises'
 import store from '@/store/user.js'
 import * as types from '@/store/mutationTypes'
-import * as api from '@/api/user.js'
+import api from '@/api/user.js'
 
 jest.mock('@/api/user.js')
 
