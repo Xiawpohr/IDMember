@@ -14,12 +14,8 @@ export default {
   },
   methods: {
     signup(auth) {
-
+      this.$store.dispatch('auth/signup', auth)
     }
   }
 }
 </script>
-
-<style>
-
-</style>

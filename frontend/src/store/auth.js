@@ -10,6 +10,19 @@ const state = {
 }
 
 const mutations = {
+  [types.SIGNUP_PENDING](state) {
+    state.isLoading = true
+  },
+  [types.SIGNUP_SUCCESS](state, registeredUser) {
+    state.isLoading = false
+    state.id = registeredUser.id
+    state.email = registeredUser.email
+    state.token = registeredUser.token
+  },
+  [types.SIGNUP_FAILURE](state, error) {
+    state.isLoading = false
+    state.errorMassenge = error
+  },
   [types.LOGIN_PENDING](state) {
     state.isLoading = true
   },
@@ -26,6 +39,15 @@ const mutations = {
 }
 
 const actions = {
+  async signup({ commit }, auth) {
+    commit(types.SIGNUP_PENDING)
+    try {
+      const registeredUser = await authApi.signup(auth)
+      commit(types.SIGNUP_SUCCESS, registeredUser)
+    } catch (e) {
+      commit(types.SIGNUP_FAILURE, e)
+    }
+  },
   async login({ commit }, auth) {
     commit(types.LOGIN_PENDING)
     try {

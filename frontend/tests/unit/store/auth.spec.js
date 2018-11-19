@@ -20,6 +20,26 @@ describe('auth mutations', () => {
     pendingState = { ...initialState, isLoading: true }
   })
 
+  it('should set pending state for sign up', () => {
+    mutations[types.SIGNUP_PENDING](state)
+    expect(state.isLoading).toBe(true)
+  })
+
+  it('should set state for sign up successfully', () => {
+    mutations[types.SIGNUP_SUCCESS](pendingState, authenticatedUser)
+    expect(pendingState.isLoading).toBe(false)
+    expect(pendingState.id).not.toBe(null)
+    expect(pendingState.email).not.toBe(null)
+    expect(pendingState.token).not.toBe(null)
+  })
+
+  it('should set erroe massenge for sign up unsuccessfully', () => {
+    const error = 'There is something wrong.'
+    mutations[types.SIGNUP_FAILURE](pendingState, error)
+    expect(pendingState.isLoading).toBe(false)
+    expect(pendingState.errorMassenge).toBe(error)
+  })
+
   it('should set pending state for login', () => {
     mutations[types.LOGIN_PENDING](state)
     expect(state.isLoading).toBe(true)
@@ -46,7 +66,18 @@ describe('auth actions', () => {
 
   beforeEach(() => {
     commit = jest.fn()
+    api.signup = jest.fn()
     api.login = jest.fn()
+  })
+
+  it('should signup user', async () => {
+    const auth = { email: 'test@example.com', password: '123456' }
+    await actions.signup({ commit }, auth)
+    await flushPromises
+    expect(api.signup).toHaveBeenCalled()
+    expect(commit).toHaveBeenCalledTimes(2)
+    expect(commit.mock.calls[0]).toContain(types.SIGNUP_PENDING)
+    expect(commit.mock.calls[1]).toContain(types.SIGNUP_SUCCESS)
   })
 
   it('should login user', async () => {

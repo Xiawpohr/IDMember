@@ -1,6 +1,15 @@
 import instance, { mock } from './base.js'
 
 mock
+  .onPost('/signup', {
+    email: 'test@example.com',
+    password: '123456'
+  })
+  .reply(200, {
+    registeredUser: { id: 1, email: 'test@example.com', token: 'foufhaeog' }
+  })
+
+mock
   .onPost('/login', {
     email: 'test@example.com',
     password: '123456'
@@ -10,6 +19,11 @@ mock
   })
 
 export default {
+  signup(auth) {
+    return instance
+      .post('/signup', { ...auth })
+      .then(response => response.data.registeredUser)
+  },
   login(auth) {
     return instance
       .post('/login', { ...auth })
