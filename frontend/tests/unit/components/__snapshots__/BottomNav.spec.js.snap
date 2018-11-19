@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render the component 1`] = `
+<vbottomnav-stub height="56" value="true" app="" color="transparent">
+  <vbtn-stub activeclass="v-btn--active" flat="true" tag="button" type="button" value="discover" color="teal" to="/"><span>Discover</span>
+    <vicon-stub>whatshot</vicon-stub>
+  </vbtn-stub>
+  <vbtn-stub activeclass="v-btn--active" flat="true" tag="button" type="button" value="friends" color="teal" to="/friends"><span>Friends</span>
+    <vicon-stub>favorite</vicon-stub>
+  </vbtn-stub>
+  <vbtn-stub activeclass="v-btn--active" flat="true" tag="button" type="button" value="profile" color="teal" to="profile"><span>Profile</span>
+    <vicon-stub>person</vicon-stub>
+  </vbtn-stub>
+</vbottomnav-stub>
+`;
