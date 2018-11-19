@@ -28,5 +28,8 @@ export default {
     return instance
       .post('/login', { ...auth })
       .then(response => response.data.authenticatedUser)
+  },
+  logout() {
+    return instance.post('/logout')
   }
 }

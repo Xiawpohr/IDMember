@@ -59,6 +59,26 @@ describe('auth mutations', () => {
     expect(pendingState.isLoading).toBe(false)
     expect(pendingState.errorMassenge).toBe(error)
   })
+
+  it('should set pending state for logout', () => {
+    mutations[types.LOGOUT_PENDING](state)
+    expect(state.isLoading).toBe(true)
+  })
+
+  it('should set state for logout successfully', () => {
+    mutations[types.LOGOUT_SUCCESS](pendingState)
+    expect(pendingState.isLoading).toBe(false)
+    expect(pendingState.id).toBe(null)
+    expect(pendingState.email).toBe(null)
+    expect(pendingState.token).toBe(null)
+  })
+
+  it('should set erroe massenge for logout unsuccessfully', () => {
+    const error = 'There is something wrong.'
+    mutations[types.LOGOUT_FAILURE](pendingState, error)
+    expect(pendingState.isLoading).toBe(false)
+    expect(pendingState.errorMassenge).toBe(error)
+  })
 })
 
 describe('auth actions', () => {
@@ -68,6 +88,7 @@ describe('auth actions', () => {
     commit = jest.fn()
     api.signup = jest.fn()
     api.login = jest.fn()
+    api.logout = jest.fn()
   })
 
   it('should signup user', async () => {
@@ -88,5 +109,14 @@ describe('auth actions', () => {
     expect(commit).toHaveBeenCalledTimes(2)
     expect(commit.mock.calls[0]).toContain(types.LOGIN_PENDING)
     expect(commit.mock.calls[1]).toContain(types.LOGIN_SUCCESS)
+  })
+
+  it('should logout user', async () => {
+    await actions.logout({ commit })
+    await flushPromises
+    expect(api.logout).toHaveBeenCalled()
+    expect(commit).toHaveBeenCalledTimes(2)
+    expect(commit.mock.calls[0]).toContain(types.LOGOUT_PENDING)
+    expect(commit.mock.calls[1]).toContain(types.LOGOUT_SUCCESS)
   })
 })

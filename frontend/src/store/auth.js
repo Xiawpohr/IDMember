@@ -35,6 +35,19 @@ const mutations = {
   [types.LOGIN_FAILURE](state, error) {
     state.isLoading = false
     state.errorMassenge = error
+  },
+  [types.LOGOUT_PENDING](state) {
+    state.isLoading = true
+  },
+  [types.LOGOUT_SUCCESS](state) {
+    state.isLoading = false
+    state.id = null
+    state.email = null
+    state.token = null
+  },
+  [types.LOGOUT_FAILURE](state, error) {
+    state.isLoading = false
+    state.errorMassenge = error
   }
 }
 
@@ -55,6 +68,15 @@ const actions = {
       commit(types.LOGIN_SUCCESS, authenticatedUser)
     } catch (e) {
       commit(types.LOGIN_FAILURE, e)
+    }
+  },
+  async logout({ commit }) {
+    commit(types.LOGOUT_PENDING)
+    try {
+      await authApi.logout()
+      commit(types.LOGOUT_SUCCESS)
+    } catch (e) {
+      commit(types.LOGOUT_FAILURE, e)
     }
   }
 }
