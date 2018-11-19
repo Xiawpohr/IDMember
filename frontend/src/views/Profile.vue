@@ -12,19 +12,21 @@ export default {
   components: {
     ProfileForm
   },
-  data() {
-    return {
-      currentUser: {
-        id: 1,
-        firstName: 'Arthur',
-        lastName: 'Hsiao'
-      }
+  computed: {
+    currentUser() {
+      return this.$store.state.user.currentUser
     }
   },
   methods: {
+    fetchCurrentUser() {
+      this.$store.dispatch('user/fetchCurrentUser')
+    },
     saveUser(user) {
       this.$store.dispatch('user/saveUser', user)
     }
+  },
+  created() {
+    this.fetchCurrentUser()
   }
 }
 </script>

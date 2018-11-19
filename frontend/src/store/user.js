@@ -3,6 +3,7 @@ import userApi from '@/api/user.js'
 
 const state = {
   isFetchingAllUsers: false,
+  isFetchingCurrentUser: false,
   isSaving: false,
   errorMassenge: '',
   users: [],
@@ -19,6 +20,17 @@ const mutations = {
   },
   [types.FETCH_USERS_FAILURE](state, error) {
     state.isFetchingAllUsers = false
+    state.errorMassenge = error
+  },
+  [types.FETCH_CURRENT_USER_PENDING](state) {
+    state.isFetchingCurrentUser = true
+  },
+  [types.FETCH_CURRENT_USER_SUCCESS](state, currentUser) {
+    state.isFetchingCurrentUser = false
+    state.currentUser = { ...currentUser }
+  },
+  [types.FETCH_CURRENT_USER_FAILURE](state, error) {
+    state.isFetchingCurrentUser = false
     state.errorMassenge = error
   },
   [types.SAVE_USER_PENDING](state) {
@@ -42,6 +54,15 @@ const actions = {
       commit(types.FETCH_USERS_SUCCESS, users)
     } catch (e) {
       commit(types.FETCH_USERS_FAILURE, e)
+    }
+  },
+  async fetchCurrentUser({ commit }) {
+    commit(types.FETCH_CURRENT_USER_PENDING)
+    try {
+      const currentUser = await userApi.fetchCurrentUser()
+      commit(types.FETCH_CURRENT_USER_SUCCESS, currentUser)
+    } catch (e) {
+      commit(types.FETCH_CURRENT_USER_FAILURE, e)
     }
   },
   async saveUser({ commit }, user) {

@@ -1,14 +1,34 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex'
 import Profile from '@/views/Profile.vue'
 import ProfileForm from '@/components/ProfileForm.vue'
 
 const localVue = createLocalVue()
+localVue.use(Vuex)
+
 const user = { id: 1, firstName: 'Arthur', lastName: 'Hsiao' }
-let wrapper
+let wrapper, state, actions, store
 
 beforeEach(() => {
+  state = {
+    currentUser: user
+  }
+  actions = {
+    fetchCurrentUser: jest.fn().mockResolvedValue(user),
+    saveUser: jest.fn().mockResolvedValue(user)
+  }
+  store = new Vuex.Store({
+    modules: {
+      user: {
+        namespaced: true,
+        state,
+        actions
+      }
+    }
+  })
   wrapper = shallowMount(Profile, {
-    localVue
+    localVue,
+    store
   })
 })
 
@@ -23,17 +43,16 @@ it('should render ProfileForm component', () => {
 
 it('should pass user prop to the ProfileForm component', () => {
   const profileForm = wrapper.find(ProfileForm)
-  wrapper.setData({ currentUser: user })
   expect(profileForm.vm.user).toEqual(user)
 })
 
-it('should save user information when recieving submmited', () => {
-  const saveUser = jest.fn()
-  const profileForm = wrapper.find(ProfileForm)
-  wrapper.setData({ currentUser: user })
-  wrapper.setMethods({ saveUser })
+it('should fetch current user when the component created', () => {
+  expect(actions.fetchCurrentUser).toHaveBeenCalled()
+})
 
+it('should save user information when recieving submmited', () => {
+  const profileForm = wrapper.find(ProfileForm)
   profileForm.vm.$emit('submitted', user)
-  expect(saveUser).toHaveBeenCalled()
-  expect(saveUser.mock.calls[0][0]).toEqual(user)
+  expect(actions.saveUser).toHaveBeenCalled()
+  expect(actions.saveUser.mock.calls[0][1]).toEqual(user)
 })
