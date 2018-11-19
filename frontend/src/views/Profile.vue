@@ -15,6 +15,7 @@ export default {
   data() {
     return {
       currentUser: {
+        id: 1,
         firstName: 'Arthur',
         lastName: 'Hsiao'
       }
@@ -22,7 +23,7 @@ export default {
   },
   methods: {
     saveUser(user) {
-      
+      this.$store.dispatch('user/saveUser', user)
     }
   }
 }
