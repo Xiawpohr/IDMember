@@ -7,7 +7,18 @@
       color="teal"
       indeterminate
     />
-    <LoginForm v-else @submitted="login" />
+    <div v-else>
+      <LoginForm @submitted="login" />
+      <div class="mt-3 text-xs-center">
+        <v-btn
+          to='/signup'
+          flat
+          color="teal"
+        >
+          Go to Sign Up
+        </v-btn>
+      </div>
+    </div>
   </v-layout>
 </template>
 

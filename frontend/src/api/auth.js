@@ -3,7 +3,7 @@ import instance, { mock } from './base.js'
 mock
   .onPost('/signup', {
     email: 'test@example.com',
-    password: '123456'
+    password: 'Aa=123'
   })
   .reply(200, {
     registeredUser: { id: 1, email: 'test@example.com', token: 'foufhaeog' }
