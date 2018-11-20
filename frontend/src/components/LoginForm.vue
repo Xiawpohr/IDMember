@@ -1,9 +1,54 @@
 <template>
-  <form @submit.prevent="$emit('submitted', auth)">
+  <v-card width="450">
+    <v-container>
+      <h2 class="display-2 text-xs-center pb-4">Log In</h2>
+      <v-form
+        v-model="valid"
+        @submit.prevent="$emit('submitted', auth)"
+      >
+        <v-text-field
+          v-model="email"
+          :rules="[rules.email]"
+          label="E-mail"
+          color="teal"
+          box
+          required
+        />
+        <v-text-field
+          v-model="password"
+          :rules="[rules.password]"
+          label="Password"
+          color="teal"
+          type="password"
+          box
+          required
+        />
+        <div class="text-xs-center">
+          <v-btn
+            type="submit"
+            color="teal"
+            large
+          >
+            Log In
+          </v-btn>
+        </div>
+        <div class="text-xs-center">
+          <v-btn
+            to='/signup'
+            flat
+            color="teal"
+          >
+            Go to Sign Up
+          </v-btn>
+        </div>
+      </v-form>
+    </v-container>
+  </v-card>
+  <!-- <form @submit.prevent="$emit('submitted', auth)">
     <input type="text" placeholder="Email" v-model="email">
     <input type="password" placeholder="Password" v-model="password">
     <button type="submit">Log In</button>
-  </form>
+  </form> -->
 </template>
 
 <script>
@@ -11,7 +56,19 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      valid: false,
+      rules: {
+        email: v => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(v) || 'Please enter a valid email'
+        },
+        password: v =>
+          (v || '').match(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/
+          ) ||
+          'Password must contain an upper case letter, a numeric character, and a special character'
+      }
     }
   },
   computed: {
