@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-nav app :value="true">
+  <v-bottom-nav app :value="isAuth">
     <v-btn
       color="teal"
       flat
@@ -29,3 +29,14 @@
     </v-btn>
   </v-bottom-nav>
 </template>
+
+<script>
+export default {
+  computed: {
+    isAuth() {
+      return this.$store.state.auth.id !== null
+    }
+  }
+}
+</script>
+
