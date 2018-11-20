@@ -77,9 +77,12 @@ describe('user mutations', () => {
 })
 
 describe('user actions', () => {
-  let commit
+  let commit, state
 
   beforeEach(() => {
+    state = {
+      currentUser: {}
+    }
     commit = jest.fn()
     api.fetchAll = jest.fn().mockResolvedValue(users)
     api.fetchCurrentUser = jest.fn().mockResolvedValue(user)
@@ -105,7 +108,7 @@ describe('user actions', () => {
   })
 
   it('should save user', async () => {
-    await actions.saveUser({ commit }, user)
+    await actions.saveUser({ commit, state }, user)
     await flushPromises()
     expect(api.update).toHaveBeenCalled()
     expect(commit.mock.calls.length).toBe(2)

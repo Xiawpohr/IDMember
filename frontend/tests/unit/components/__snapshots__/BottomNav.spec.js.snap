@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render the component 1`] = `
-<vbottomnav-stub height="56" value="true" app="" color="transparent">
+<vbottomnav-stub height="56" value="true" app="">
   <vbtn-stub activeclass="v-btn--active" flat="true" tag="button" type="button" value="discover" color="teal" to="/"><span>Discover</span>
     <vicon-stub>whatshot</vicon-stub>
   </vbtn-stub>

@@ -65,10 +65,13 @@ const actions = {
       commit(types.FETCH_CURRENT_USER_FAILURE, e)
     }
   },
-  async saveUser({ commit }, user) {
+  async saveUser({ commit, state }, user) {
     commit(types.SAVE_USER_PENDING)
     try {
-      const updatedUser = await userApi.update(user)
+      const updatedUser = await userApi.update({
+        ...state.currentUser,
+        ...user
+      })
       commit(types.SAVE_USER_SUCCESS, updatedUser)
     } catch (e) {
       commit(types.SAVE_USER_FAILURE, e)

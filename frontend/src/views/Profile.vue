@@ -1,7 +1,11 @@
 <template>
   <div>
-    <h1>Your Profile</h1>
-    <ProfileForm :user="currentUser" @submitted="saveUser" />
+    <h1 class="display-2 font-weight-medium teal--text text-xs-center ">
+      Your Profile
+    </h1>
+    <div class="pt-4">
+      <ProfileForm :user="currentUser" @submitted="saveUser" />
+    </div>
   </div>
 </template>
 

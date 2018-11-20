@@ -1,7 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render the component 1`] = `
-<form>
-  <p>profile form</p> <input type="text"> <input type="text"> <button type="submit">Save</button>
-</form>
+<vform-stub value="true">
+  <vtextfield-stub rules="v => !!v || 'Name is required'" label="First Name" color="teal" box="" required=""></vtextfield-stub>
+  <vtextfield-stub rules="v => !!v || 'Name is required'" label="Last Name" color="teal" box="" required=""></vtextfield-stub>
+  <vtextfield-stub rules="v => {
+          const pattern = /^(([^<>()[\\]\\\\.,;:\\s@&quot;]+(\\.[^<>()[\\]\\\\.,;:\\s@&quot;]+)*)|(&quot;.+&quot;))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(v) || 'Please enter a valid email';
+        }" label="E-mail" color="teal" box="" required=""></vtextfield-stub>
+  <vtextfield-stub box="" color="teal" label="Phone number" mask="#### - ### - ###"></vtextfield-stub>
+  <vtextarea-stub autogrow="true" rowheight="24" rows="4" box="" color="teal" label="Bio"></vtextarea-stub>
+  <vradiogroup-stub column="true" height="auto" mandatory="true" row="true" value="">
+    <vradio-stub color="teal" label="Male" onicon="$vuetify.icons.radioOn" officon="$vuetify.icons.radioOff" value="male"></vradio-stub>
+    <vradio-stub color="teal" label="Female" onicon="$vuetify.icons.radioOn" officon="$vuetify.icons.radioOff" value="female"></vradio-stub>
+  </vradiogroup-stub>
+  <vmenu-stub closeonclick="true" fullwidth="true" maxheight="auto" offsety="true" openonclick="true" origin="top left" transition="scale-transition" nudge-right="40" lazy="" min-width="290px">
+    <vtextfield-stub label="Birthday date" color="teal" box="" readonly=""></vtextfield-stub>
+    <vdatepicker-stub eventcolor="warning" firstdayofweek="0" locale="en-us" max="2018-11-20" min="1950-01-01" nexticon="$vuetify.icons.next" previcon="$vuetify.icons.prev" showcurrent="true" type="date" value="" color="teal" no-title=""></vdatepicker-stub>
+  </vmenu-stub>
+  <div class="text-xs-center">
+    <vbtn-stub activeclass="v-btn--active" large="true" tag="button" type="submit" color="teal">
+      Save
+    </vbtn-stub>
+  </div>
+</vform-stub>
 `;
