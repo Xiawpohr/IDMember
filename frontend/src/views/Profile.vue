@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="display-2 font-weight-medium teal--text text-xs-center ">
+    <h1 class="display-2 font-weight-medium teal--text text-xs-center">
       Your Profile
     </h1>
     <div class="pt-4">

@@ -1,7 +1,11 @@
 <template>
-  <div class="home">
-    <h1>Discover Your Friends</h1>
-    <UserList :users="users"/>
+  <div>
+    <h1 class="display-2 font-weight-medium teal--text text-xs-center">
+      Discover Your Friends
+    </h1>
+    <div class="pt-3">
+      <UserList :users="users"/>
+    </div>
   </div>
 </template>
 

@@ -62,9 +62,13 @@ export default {
         },
         password: v => {
           const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/
-          return pattern.test(v) || 'Password must contain an upper case letter, a numeric character, and a special character'
+          return (
+            pattern.test(v) ||
+            'Password must contain an upper case letter, a numeric character, and a special character'
+          )
         },
-        confirmPassword: v => (v === this.password) || 'Please type the same password.'
+        confirmPassword: v =>
+          v === this.password || 'Please type the same password.'
       }
     }
   },
