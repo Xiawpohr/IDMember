@@ -222,37 +222,37 @@ This is a member system with crypto-payment feature.
 
 ## Build
 * Project setup
-```
-cd frontend
-npm install
-```
+  ```
+  cd frontend
+  npm install
+  ```
 
 * Compiles and hot-reloads for development
-```
-npm run serve
-```
+  ```
+  npm run serve
+  ```
 
 * Compiles and minifies for production
-```
-npm run build
-```
+  ```
+  npm run build
+  ```
 
 * Run your tests
-```
-npm run test
-```
+  ```
+  npm run test
+  ```
 
 * Lints and fixes files
-```
-npm run lint
-```
+  ```
+  npm run lint
+  ```
 
 * Run your end-to-end tests
-```
-npm run test:e2e
+  ```
+  npm run test:e2e
 ```
 
 * Run your unit tests
-```
-npm run test:unit
-```
+  ```
+  npm run test:unit
+  ```
