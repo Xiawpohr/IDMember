@@ -3,6 +3,7 @@ import friendApi from '@/api/friend.js'
 
 const state = {
   isFetchingAll: false,
+  isFetchingRequests: false,
   isRequesting: false,
   errorMassenge: '',
   friends: [],
@@ -30,6 +31,17 @@ const mutations = {
     state.isFetchingAll = false
     state.errorMassenge = error
   },
+  [types.FETCH_FRIEND_REQUESTS_PENDING](state) {
+    state.isFetchingRequests = true
+  },
+  [types.FETCH_FRIEND_REQUESTS_SUCCESS](state, friendIds) {
+    state.isFetchingRequests = false
+    state.requestedFriendIds = [...friendIds]
+  },
+  [types.FETCH_FRIEND_REQUESTS_FAILURE](state, error) {
+    state.isFetchingRequests = false
+    state.errorMassenge = error
+  },
   [types.REQUEST_FRIEND_PENDING](state) {
     state.isRequesting = true
   },
@@ -51,6 +63,17 @@ const actions = {
       commit(types.FETCH_FRIENDS_SUCCESS, friends)
     } catch (e) {
       commit(types.FETCH_FRIENDS_FAILURE, e)
+    }
+  },
+  async fetchFriendRequests({ commit }) {
+    commit(types.FETCH_FRIEND_REQUESTS_PENDING)
+    try {
+      const friendRequests = await friendApi.fetchRequests()
+      const requestedFriendIds = friendRequests.map(req => req.to)
+      console.log(friendRequests)
+      commit(types.FETCH_FRIEND_REQUESTS_SUCCESS, requestedFriendIds)
+    } catch (e) {
+      commit(types.FETCH_FRIEND_REQUESTS_FAILURE, e)
     }
   },
   async request({ commit }, friendId) {

@@ -31,10 +31,14 @@ export default {
   methods: {
     fetchUsers() {
       this.$store.dispatch('user/fetchUsers')
+    },
+    fetchFriendRequests() {
+      this.$store.dispatch('friend/fetchFriendRequests')
     }
   },
   created() {
     this.fetchUsers()
+    this.fetchFriendRequests()
   }
 }
 </script>
