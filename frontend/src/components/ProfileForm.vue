@@ -142,6 +142,15 @@ export default {
     }
   },
   watch: {
+    user(val) {
+      this.firstName = val.firstName
+      this.lastName = val.lastName
+      this.email = val.email
+      this.phone = val.phone
+      this.bio = val.bio
+      this.gender = val.gender
+      this.birthday = val.birthday
+    },
     birthdayMenu(val) {
       val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
     }
