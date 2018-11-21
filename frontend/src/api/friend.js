@@ -24,7 +24,11 @@ mock.onGet('/friends/confirmations').reply(200, {
 })
 
 mock.onPost('/friends/request').reply(200, {
-  newFriend: { id: 2, name: 'Arthur' }
+  friend: { id: 2, name: 'Arthur' }
+})
+
+mock.onPost('/friends/confirm').reply(200, {
+  friend: users[0]
 })
 
 export default {
@@ -44,6 +48,11 @@ export default {
   request(friendId) {
     return instance
       .post('/friends/request', { friendId })
-      .then(response => response.data.newFriend)
+      .then(response => response.data.friend)
+  },
+  confirm(friendId) {
+    return instance
+      .post('/friends/confirm', { friendId })
+      .then(response => response.data.friend)
   }
 }

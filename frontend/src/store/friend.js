@@ -22,6 +22,11 @@ const getters = {
     return userId => {
       return state.confirmingFriendIds.indexOf(userId) !== -1
     }
+  },
+  isFriend(state) {
+    return userId => {
+      return state.friends.findIndex(friend => friend.id === userId) !== -1
+    }
   }
 }
 
@@ -69,6 +74,20 @@ const mutations = {
   [types.REQUEST_FRIEND_FAILURE](state, error) {
     state.isRequesting = false
     state.errorMassenge = error
+  },
+  [types.CONFIRM_FRIEND_PENDING](state) {
+    state.isConfirming = true
+  },
+  [types.CONFIRM_FRIEND_SUCCESS](state, friend) {
+    state.isConfirming = false
+    state.confirmingFriendIds = state.confirmingFriendIds.filter(
+      id => id !== friend.id
+    )
+    state.friends = [friend, ...state.friends]
+  },
+  [types.CONFIRM_FRIEND_FAILURE](state, error) {
+    state.isConfirming = false
+    state.errorMassenge = error
   }
 }
 
@@ -109,6 +128,15 @@ const actions = {
       commit(types.REQUEST_FRIEND_SUCCESS, { id: friendId })
     } catch (e) {
       commit(types.REQUEST_FRIEND_FAILURE, e)
+    }
+  },
+  async confirm({ commit }, friendId) {
+    commit(types.CONFIRM_FRIEND_PENDING)
+    try {
+      const friend = await friendApi.confirm(friendId)
+      commit(types.CONFIRM_FRIEND_SUCCESS, friend)
+    } catch (e) {
+      commit(types.CONFIRM_FRIEND_FAILURE, e)
     }
   }
 }

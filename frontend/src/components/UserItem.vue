@@ -31,7 +31,13 @@
     <v-card-actions>
       <v-spacer />
       <div
-        v-if="isRequestedFriend"
+        v-if="isFriend"
+        class="pa-2 body-2 cyan--text"
+      >
+        My Friends
+      </div>
+      <div
+        v-else-if="isRequestedFriend"
         class="pa-2 body-2 cyan--text"
       >
         You have made a request.
@@ -82,13 +88,18 @@ export default {
       return this.$store.getters['friend/isWaitingForConfirmingFriend'](
         this.user.id
       )
+    },
+    isFriend() {
+      return this.$store.getters['friend/isFriend'](this.user.id)
     }
   },
   methods: {
     makeFriend() {
       this.$store.dispatch('friend/request', this.user.id)
     },
-    confirmFriend() {}
+    confirmFriend() {
+      this.$store.dispatch('friend/confirm', this.user.id)
+    }
   }
 }
 </script>
