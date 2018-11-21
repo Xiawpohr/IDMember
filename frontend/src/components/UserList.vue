@@ -16,19 +16,14 @@
         md4
         lg3
       >
-        <UserItem :user="props.item" />
+        <slot :user="props.item"></slot>
       </v-flex>
     </v-data-iterator>
   </v-container>
 </template>
 
 <script>
-import UserItem from './UserItem.vue'
-
 export default {
-  components: {
-    UserItem
-  },
   props: {
     users: {
       type: Array,

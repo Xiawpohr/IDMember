@@ -4,18 +4,24 @@
       Discover Your Friends
     </h1>
     <div class="pt-3">
-      <UserList :users="users"/>
+      <UserList :users="users">
+        <template slot-scope="props">
+          <UserItem :user="props.user" />
+        </template>
+      </UserList>
     </div>
   </div>
 </template>
 
 <script>
 import UserList from '@/components/UserList.vue'
+import UserItem from '@/components/UserItem.vue'
 
 export default {
   name: 'home',
   components: {
-    UserList
+    UserList,
+    UserItem
   },
   computed: {
     users() {
