@@ -14,7 +14,16 @@ mock.onGet('/friends/requests').reply(200, {
   ]
 })
 
-mock.onPost('/friends/requests').reply(200, {
+mock.onGet('/friends/confirmations').reply(200, {
+  friendConfirmations: [
+    {
+      id: 1123,
+      from: users[0].id
+    }
+  ]
+})
+
+mock.onPost('/friends/request').reply(200, {
   newFriend: { id: 2, name: 'Arthur' }
 })
 
@@ -27,9 +36,14 @@ export default {
       .get('/friends/requests')
       .then(response => response.data.friendRequests)
   },
+  fetchConfirmations() {
+    return instance
+      .get('/friends/confirmations')
+      .then(response => response.data.friendConfirmations)
+  },
   request(friendId) {
     return instance
-      .post('/friends/requests', { friendId })
+      .post('/friends/request', { friendId })
       .then(response => response.data.newFriend)
   }
 }

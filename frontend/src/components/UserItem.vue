@@ -37,6 +37,14 @@
         You have made a request.
       </div>
       <v-btn
+        v-else-if="isWaitingForConfirmingFriend"
+        @click="confirmFriend"
+        flat
+        color="teal"
+      >
+        Confirm
+      </v-btn>
+      <v-btn
         v-else
         @click="makeFriend"
         flat
@@ -69,12 +77,18 @@ export default {
   computed: {
     isRequestedFriend() {
       return this.$store.getters['friend/isRequestedFriend'](this.user.id)
+    },
+    isWaitingForConfirmingFriend() {
+      return this.$store.getters['friend/isWaitingForConfirmingFriend'](
+        this.user.id
+      )
     }
   },
   methods: {
     makeFriend() {
       this.$store.dispatch('friend/request', this.user.id)
-    }
+    },
+    confirmFriend() {}
   }
 }
 </script>

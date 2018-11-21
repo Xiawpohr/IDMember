@@ -4,10 +4,11 @@ import friendApi from '@/api/friend.js'
 const state = {
   isFetchingAll: false,
   isFetchingRequests: false,
+  isFetchingConfirmations: false,
   isRequesting: false,
   errorMassenge: '',
   friends: [],
-  waitingForConfirmingFriendIds: [],
+  confirmingFriendIds: [],
   requestedFriendIds: []
 }
 
@@ -15,6 +16,11 @@ const getters = {
   isRequestedFriend(state) {
     return userId => {
       return state.requestedFriendIds.indexOf(userId) !== -1
+    }
+  },
+  isWaitingForConfirmingFriend(state) {
+    return userId => {
+      return state.confirmingFriendIds.indexOf(userId) !== -1
     }
   }
 }
@@ -40,6 +46,17 @@ const mutations = {
   },
   [types.FETCH_FRIEND_REQUESTS_FAILURE](state, error) {
     state.isFetchingRequests = false
+    state.errorMassenge = error
+  },
+  [types.FETCH_FRIEND_CONFIRMATIONS_PENDING](state) {
+    state.isFetchingConfirmations = true
+  },
+  [types.FETCH_FRIEND_CONFIRMATIONS_SUCCESS](state, friendIds) {
+    state.isFetchingConfirmations = false
+    state.confirmingFriendIds = [...friendIds]
+  },
+  [types.FETCH_FRIEND_CONFIRMATIONS_FAILURE](state, error) {
+    state.isFetchingConfirmations = false
     state.errorMassenge = error
   },
   [types.REQUEST_FRIEND_PENDING](state) {
@@ -70,10 +87,19 @@ const actions = {
     try {
       const friendRequests = await friendApi.fetchRequests()
       const requestedFriendIds = friendRequests.map(req => req.to)
-      console.log(friendRequests)
       commit(types.FETCH_FRIEND_REQUESTS_SUCCESS, requestedFriendIds)
     } catch (e) {
       commit(types.FETCH_FRIEND_REQUESTS_FAILURE, e)
+    }
+  },
+  async fetchFriendConfirmations({ commit }) {
+    commit(types.FETCH_FRIEND_CONFIRMATIONS_PENDING)
+    try {
+      const friendConfirmations = await friendApi.fetchConfirmations()
+      const ConfirmingFriendIds = friendConfirmations.map(req => req.from)
+      commit(types.FETCH_FRIEND_CONFIRMATIONS_SUCCESS, ConfirmingFriendIds)
+    } catch (e) {
+      commit(types.FETCH_FRIEND_CONFIRMATIONS_FAILURE, e)
     }
   },
   async request({ commit }, friendId) {

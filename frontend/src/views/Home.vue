@@ -34,11 +34,15 @@ export default {
     },
     fetchFriendRequests() {
       this.$store.dispatch('friend/fetchFriendRequests')
+    },
+    fetchFriendConfirmations() {
+      this.$store.dispatch('friend/fetchFriendConfirmations')
     }
   },
   created() {
     this.fetchUsers()
     this.fetchFriendRequests()
+    this.fetchFriendConfirmations()
   }
 }
 </script>

@@ -152,7 +152,7 @@ This is a member system with crypto-payment feature.
       }
     ```
 
-* "/friends/requests"
+* "/friends/request"
   - method: POST
   - description: make a friend request to another user
   - request body example:
@@ -178,14 +178,14 @@ This is a member system with crypto-payment feature.
       }
     ```
 
-* "/friends/confirms"
+* "/friends/confirmations"
   - method: GET
   - description: fetch all friend requsets from other users, that you need to confirm 
   - response example: 
     ```
       {
         status: 200,
-        friendRequests: [
+        friendConfirmations: [
           {
             id: 1123,
             from: 3 // userId
@@ -194,7 +194,7 @@ This is a member system with crypto-payment feature.
       }
     ```
 
-* "/friends/confirms"
+* "/friends/confirm"
   - method: POST
   - description: confirm the friend request from another user
   - request body example:
