@@ -4,6 +4,28 @@
     v-model="valid"
     @submit.prevent="submit"
   >
+    <v-layout>
+      <v-flex class="mr-2">
+        <v-text-field
+          v-model="account"
+          outline
+          color="teal"
+          label="Your Etherium Account"
+          append-outer-icon="search"
+          @click:append-outer="getBalance"
+        />
+      </v-flex>
+      <v-flex style="flex: 0 0 110px">
+        <v-text-field
+          v-model="balance"
+          outline
+          single-line
+          readonly
+          color="teal"
+          suffix="Ether"
+        />
+      </v-flex>
+    </v-layout>
     <v-text-field
       v-model="firstName"
       :rules="[rules.name]"
@@ -41,7 +63,7 @@
       box
       color="teal"
       label="Bio"
-      rows="4"
+      rows="2"
     />
     <v-radio-group v-model="gender" row>
       <v-radio label="Male" value="male" color="teal" />
@@ -90,11 +112,14 @@
 </template>
 
 <script>
+import { getBalance } from '@/eth.js'
+
 export default {
   props: {
     user: {
       types: Object,
       default: () => ({
+        account: '',
         firstName: '',
         lastName: '',
         email: '',
@@ -107,6 +132,8 @@ export default {
   },
   data() {
     return {
+      account: this.user.account,
+      balance: '',
       firstName: this.user.firstName,
       lastName: this.user.lastName,
       email: this.user.email,
@@ -136,13 +163,20 @@ export default {
   computed: {
     modifiedUser() {
       return {
+        account: this.accuont,
         firstName: this.firstName,
-        lastName: this.lastName
+        lastName: this.lastName,
+        email: this.email,
+        phone: this.phone,
+        bio: this.bio,
+        gender: this.gender,
+        birthday: this.birthday
       }
     }
   },
   watch: {
     user(val) {
+      this.account = val.account
       this.firstName = val.firstName
       this.lastName = val.lastName
       this.email = val.email
@@ -163,6 +197,9 @@ export default {
     },
     setBirthday(date) {
       this.$refs.birthdayMenu.save(date)
+    },
+    async getBalance() {
+      this.balance = await getBalance(this.account)
     }
   }
 }

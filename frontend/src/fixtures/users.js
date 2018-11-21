@@ -2,6 +2,7 @@ import faker from 'faker'
 
 export const currentUser = {
   id: 1,
+  account: '0xC6E69124F2f45B1EcFBb657463bB8385869E20F6',
   firstName: 'Arthur',
   lastName: 'Hsiao',
   email: 'test@example.com',
@@ -13,6 +14,7 @@ export const currentUser = {
 
 export const modifiedUser = {
   id: 1,
+  account: '0xC6E69124F2f45B1EcFBb657463bB8385869E20F6',
   firstName: 'Arthur',
   lastName: 'Hsiao',
   email: 'test12@example.com',
@@ -28,6 +30,7 @@ export const users = Array(10)
     const date = faker.date.past()
     return {
       id: faker.random.uuid(),
+      account: '0xC6E69124F2f45B1EcFBb657463bB8385869E20F6',
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       email: faker.internet.email(),
