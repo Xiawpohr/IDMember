@@ -5,17 +5,17 @@ mock.onGet('/friends').reply(200, {
   friends: users
 })
 
-mock.onPost('/friends', { friendId: 2 }).reply(200, {
-  newFriend: { name: 'Arthur' }
+mock.onPost('/friends/requests').reply(200, {
+  newFriend: { id: 2, name: 'Arthur' }
 })
 
 export default {
   fetchAll() {
     return instance.get('/friends').then(response => response.data.friends)
   },
-  create(friendId) {
+  request(friendId) {
     return instance
-      .post('/friends', { friendId })
+      .post('/friends/requests', { friendId })
       .then(response => response.data.newFriend)
   }
 }

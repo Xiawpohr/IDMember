@@ -3,9 +3,19 @@ import friendApi from '@/api/friend.js'
 
 const state = {
   isFetchingAll: false,
-  isAdding: false,
+  isRequesting: false,
   errorMassenge: '',
-  friends: []
+  friends: [],
+  waitingForConfirmingFriendIds: [],
+  requestedFriendIds: []
+}
+
+const getters = {
+  isRequestedFriend(state) {
+    return userId => {
+      return state.requestedFriendIds.indexOf(userId) !== -1
+    }
+  }
 }
 
 const mutations = {
@@ -20,15 +30,15 @@ const mutations = {
     state.isFetchingAll = false
     state.errorMassenge = error
   },
-  [types.ADD_FRIEND_PENDING](state) {
-    state.isAdding = true
+  [types.REQUEST_FRIEND_PENDING](state) {
+    state.isRequesting = true
   },
-  [types.ADD_FRIEND_SUCCESS](state, friend) {
-    state.isAdding = false
-    state.friends = [friend, ...state.friends]
+  [types.REQUEST_FRIEND_SUCCESS](state, friend) {
+    state.isRequesting = false
+    state.requestedFriendIds = [friend.id, ...state.requestedFriendIds]
   },
-  [types.ADD_FRIEND_FAILURE](state, error) {
-    state.isAdding = false
+  [types.REQUEST_FRIEND_FAILURE](state, error) {
+    state.isRequesting = false
     state.errorMassenge = error
   }
 }
@@ -43,13 +53,13 @@ const actions = {
       commit(types.FETCH_FRIENDS_FAILURE, e)
     }
   },
-  async addFriend({ commit }, friendId) {
-    commit(types.ADD_FRIEND_PENDING)
+  async request({ commit }, friendId) {
+    commit(types.REQUEST_FRIEND_PENDING)
     try {
-      const newFriend = await friendApi.create(friendId)
-      commit(types.ADD_FRIEND_SUCCESS, newFriend)
+      await friendApi.request(friendId)
+      commit(types.REQUEST_FRIEND_SUCCESS, { id: friendId })
     } catch (e) {
-      commit(types.ADD_FRIEND_FAILURE, e)
+      commit(types.REQUEST_FRIEND_FAILURE, e)
     }
   }
 }
@@ -57,6 +67,7 @@ const actions = {
 export default {
   namespaced: true,
   state,
+  getters,
   mutations,
   actions
 }

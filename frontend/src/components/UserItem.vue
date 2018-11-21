@@ -30,7 +30,14 @@
     <v-divider />
     <v-card-actions>
       <v-spacer />
+      <div
+        v-if="isRequestedFriend"
+        class="pa-2 body-2 cyan--text"
+      >
+        You have made a request.
+      </div>
       <v-btn
+        v-else
         @click="makeFriend"
         flat
         color="teal"
@@ -59,8 +66,15 @@ export default {
       })
     }
   },
+  computed: {
+    isRequestedFriend() {
+      return this.$store.getters['friend/isRequestedFriend'](this.user.id)
+    }
+  },
   methods: {
-    makeFriend() {}
+    makeFriend() {
+      this.$store.dispatch('friend/request', this.user.id)
+    }
   }
 }
 </script>
