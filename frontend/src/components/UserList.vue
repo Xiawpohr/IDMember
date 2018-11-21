@@ -41,7 +41,7 @@ export default {
       rowsPerPageItems: [8, 12, 16],
       pagination: {
         rowsPerPage: 8
-      },
+      }
     }
   }
 }

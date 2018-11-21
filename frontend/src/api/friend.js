@@ -1,7 +1,8 @@
 import instance, { mock } from './base.js'
+import { users } from '@/fixtures/users.js'
 
 mock.onGet('/friends').reply(200, {
-  friends: [{ name: 'Arthur' }, { name: 'Robert' }, { name: 'Charlie' }]
+  friends: users
 })
 
 mock.onPost('/friends', { friendId: 2 }).reply(200, {

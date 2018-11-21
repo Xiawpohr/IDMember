@@ -60,9 +60,7 @@ export default {
     }
   },
   methods: {
-    makefriend() {
-      
-    }
+    makeFriend() {}
   }
 }
 </script>
