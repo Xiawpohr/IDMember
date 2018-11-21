@@ -250,7 +250,7 @@ This is a member system with crypto-payment feature.
 * Run your end-to-end tests
   ```
   npm run test:e2e
-```
+  ```
 
 * Run your unit tests
   ```
