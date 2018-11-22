@@ -8,6 +8,7 @@
     </div>
     <div class="text-xs-center">
       <v-btn
+        id="log-out"
         color="teal"
         large
         dark
