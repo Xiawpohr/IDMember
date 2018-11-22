@@ -1,8 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render the component 1`] = `
-<div class="home">
-  <h1>Discover Your Friends</h1>
-  <userlist-stub users="[object Object],[object Object]"></userlist-stub>
+<div>
+  <h1 class="display-2 font-weight-medium teal--text text-xs-center">
+    Discover Your Friends
+  </h1>
+  <div class="pt-3">
+    <userlist-stub users="[object Object],[object Object]"></userlist-stub>
+  </div>
 </div>
 `;

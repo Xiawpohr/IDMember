@@ -1,3 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render the component with user prop 1`] = `<p>Arthur</p>`;
+exports[`should render the component with user prop 1`] = `
+<vcard-stub tag="div">
+  <vcardtitle-stub>
+    <vflex-stub tag="div" class="pa-0 headline text-xs-center">
+      Arthur Hsiao
+    </vflex-stub>
+  </vcardtitle-stub>
+  <vlist-stub dense="true">
+    <vlisttile-stub activeclass="primary--text">
+      <vlisttilecontent-stub>
+        <div class="subheading">test@example.com</div>
+      </vlisttilecontent-stub>
+    </vlisttile-stub>
+    <vlisttile-stub activeclass="primary--text">
+      <vlisttilecontent-stub>
+        <div class="subheading">1234567890</div>
+      </vlisttilecontent-stub>
+    </vlisttile-stub>
+    <vlisttile-stub activeclass="primary--text">
+      <vlisttilecontent-stub>
+        <div class="subheading">1993/06/23</div>
+      </vlisttilecontent-stub>
+    </vlisttile-stub>
+    <vlisttile-stub activeclass="primary--text">
+      <vlisttilecontent-stub>
+        <div class="subheading">male</div>
+      </vlisttilecontent-stub>
+    </vlisttile-stub>
+  </vlist-stub>
+  <vdivider-stub></vdivider-stub>
+  <vcardactions-stub>
+    <vspacer-stub></vspacer-stub>
+    <div class="pa-2 body-2 cyan--text">
+      My Friends
+    </div>
+  </vcardactions-stub>
+</vcard-stub>
+`;

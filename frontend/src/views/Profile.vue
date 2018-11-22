@@ -4,17 +4,17 @@
       Your Profile
     </h1>
     <div class="pt-4">
-      <ProfileForm :user="currentUser" @submitted="saveUser" />
+      <UserProfileForm :user="currentUser" @submitted="saveUser" />
     </div>
   </div>
 </template>
 
 <script>
-import ProfileForm from '@/components/ProfileForm.vue'
+import UserProfileForm from '@/components/UserProfileForm.vue'
 
 export default {
   components: {
-    ProfileForm
+    UserProfileForm
   },
   computed: {
     currentUser() {

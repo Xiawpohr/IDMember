@@ -1,14 +1,23 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
+import Vue from 'vue'
 import Vuex from 'vuex'
+import Vuetify from 'vuetify'
 import Login from '@/views/Login.vue'
 import LoginForm from '@/components/LoginForm.vue'
+
+Vue.use(Vuex)
+Vue.use(Vuetify)
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-let wrapper, actions, store
+let wrapper, state, actions, store
 
 beforeEach(() => {
+  state = {
+    isLoading: false,
+    id: null
+  }
   actions = {
     login: jest.fn()
   }
@@ -16,12 +25,13 @@ beforeEach(() => {
     modules: {
       auth: {
         namespaced: true,
+        state,
         actions
       }
     }
   })
   wrapper = shallowMount(Login, {
-    localVue,
+    localVue: Vue,
     store
   })
 })

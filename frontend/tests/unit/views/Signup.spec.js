@@ -1,11 +1,33 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+import Vuetify from 'vuetify'
 import { shallowMount } from '@vue/test-utils'
 import Signup from '@/views/Signup.vue'
 import SignupForm from '@/components/SignupForm.vue'
 
-let wrapper
+Vue.use(Vuex)
+Vue.use(Vuetify)
+
+let wrapper, state, actions, store
 
 beforeEach(() => {
-  wrapper = shallowMount(Signup)
+  state = {
+    isLoading: false,
+    id: null
+  }
+  actions = {
+    signup: jest.fn()
+  }
+  store = new Vuex.Store({
+    modules: {
+      auth: {
+        namespaced: true,
+        state,
+        actions
+      }
+    }
+  })
+  wrapper = shallowMount(Signup, { localVue: Vue, store })
 })
 
 it('should render the component', () => {
@@ -21,11 +43,7 @@ it('should sign up user when recieving submitted event', () => {
     email: 'test@example.com',
     password: '123456'
   }
-  const signup = jest.fn()
   const signupForm = wrapper.find(SignupForm)
-  wrapper.setMethods({
-    signup
-  })
   signupForm.vm.$emit('submitted', auth)
-  expect(signup).toHaveBeenCalled()
+  expect(actions.signup).toHaveBeenCalled()
 })

@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render the component 1`] = `
-<div>
-  <p>user list</p>
-  <useritem-stub user="[object Object]"></useritem-stub>
-  <useritem-stub user="[object Object]"></useritem-stub>
-</div>
+<vcontainer-stub tag="div" fluid="" grid-list-lg="">
+  <vdataiterator-stub contenttag="v-layout" items="[object Object],[object Object]" rows-per-page-items="8,12,16" pagination="[object Object]" row="" wrap=""></vdataiterator-stub>
+</vcontainer-stub>
 `;

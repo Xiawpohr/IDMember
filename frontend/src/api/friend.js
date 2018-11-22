@@ -2,7 +2,7 @@ import instance, { mock } from './base.js'
 import { users } from '@/fixtures/users.js'
 
 mock.onGet('/friends').reply(200, {
-  friends: users
+  friends: [users[8], users[7], users[6], users[5]]
 })
 
 mock.onGet('/friends/requests').reply(200, {

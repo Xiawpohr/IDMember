@@ -7,14 +7,14 @@ jest.mock('@/api/friend.js')
 
 const { state: initialState, mutations, actions } = store
 const friends = [{ name: 'Arthur' }, { name: 'Robert' }, { name: 'Charlie' }]
-const friend = { name: 'Arthur' }
+const friend = { id: 2, name: 'Arthur' }
 
 describe('friend mutations', () => {
   let state, pendingState
 
   beforeEach(() => {
     state = { ...initialState }
-    pendingState = { ...initialState, isFetchingAll: true }
+    pendingState = { ...initialState, isFetchingAll: true, isRequesting: true }
   })
 
   it('should set pending state for fetching friends', () => {
@@ -35,21 +35,24 @@ describe('friend mutations', () => {
     expect(pendingState.errorMassenge).toBe(error)
   })
 
-  it('should set pending state for adding new friend', () => {
-    mutations[types.ADD_FRIEND_PENDING](state)
-    expect(state.isAdding).toBe(true)
+  it('should set pending state for making a friend request', () => {
+    mutations[types.REQUEST_FRIEND_PENDING](state)
+    expect(state.isRequesting).toBe(true)
   })
 
-  it('should set state for adding new friend successfully', () => {
-    mutations[types.ADD_FRIEND_SUCCESS](pendingState, friend)
-    expect(pendingState.isAdding).toBe(false)
-    expect(pendingState.friends).toEqual([friend, ...initialState.friends])
+  it('should set state for making a friend request successfully', () => {
+    mutations[types.REQUEST_FRIEND_SUCCESS](pendingState, friend)
+    expect(pendingState.isRequesting).toBe(false)
+    expect(pendingState.requestedFriendIds).toEqual([
+      friend.id,
+      ...initialState.requestedFriendIds
+    ])
   })
 
-  it('should set error massenge for adding new friend unsuccessfullly', () => {
+  it('should set error massenge for making a friend request unsuccessfullly', () => {
     const error = 'There is something wrong.'
-    mutations[types.ADD_FRIEND_FAILURE](pendingState, error)
-    expect(pendingState.isAdding).toBe(false)
+    mutations[types.REQUEST_FRIEND_FAILURE](pendingState, error)
+    expect(pendingState.isRequesting).toBe(false)
     expect(pendingState.errorMassenge).toBe(error)
   })
 })
@@ -60,7 +63,7 @@ describe('friend actions', () => {
   beforeEach(() => {
     commit = jest.fn()
     api.fetchAll = jest.fn().mockResolvedValue(friends)
-    api.create = jest.fn()
+    api.request = jest.fn()
   })
 
   it('should fetch friends', async () => {
@@ -72,13 +75,13 @@ describe('friend actions', () => {
     expect(commit.mock.calls[1]).toContain(types.FETCH_FRIENDS_SUCCESS)
   })
 
-  it('should add new friend', async () => {
+  it('should make a friend request to an user', async () => {
     const friendId = 2
-    await actions.addFriend({ commit }, friendId)
+    await actions.request({ commit }, friendId)
     await flushPromises()
-    expect(api.create).toHaveBeenCalled()
+    expect(api.request).toHaveBeenCalled()
     expect(commit.mock.calls.length).toBe(2)
-    expect(commit.mock.calls[0]).toContain(types.ADD_FRIEND_PENDING)
-    expect(commit.mock.calls[1]).toContain(types.ADD_FRIEND_SUCCESS)
+    expect(commit.mock.calls[0]).toContain(types.REQUEST_FRIEND_PENDING)
+    expect(commit.mock.calls[1]).toContain(types.REQUEST_FRIEND_SUCCESS)
   })
 })
