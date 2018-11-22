@@ -5,7 +5,7 @@ module.export = {
     browser
       .url(`${BASE_URL}/signup`)
       .waitForElementVisible('#app', 5000)
-      .screenshot()
+      .saveScreenshot('./tests/e2e/screenshots/sign_page.png')
       .clearValue('input[aria-label="E-mail"]')
       .setValue('input[aria-label="E-mail"]', 'test@example.com')
       .clearValue('input[aria-label="Password"]')
