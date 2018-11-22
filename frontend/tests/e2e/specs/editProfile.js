@@ -27,7 +27,7 @@ module.export = {
       .click('a[href="/profile"]')
       .waitForElementVisible('#app')
       .assert.urlEquals(`${BASE_URL}/profile`)
-      .screenshot()
+      .saveScreenshot('./tests/e2e/screenshots/profile.png')
       .click('button[type="submit"]')
   }
 }
