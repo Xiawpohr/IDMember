@@ -104,6 +104,7 @@
         type="submit"
         color="teal"
         large
+        dark
       >
         Save
       </v-btn>

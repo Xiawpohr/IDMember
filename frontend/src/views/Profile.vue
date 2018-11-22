@@ -6,6 +6,16 @@
     <div class="pt-4">
       <UserProfileForm :user="currentUser" @submitted="saveUser" />
     </div>
+    <div class="text-xs-center">
+      <v-btn
+        color="teal"
+        large
+        dark
+        @click.prevent="logout"
+      >
+        Log Out
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -27,6 +37,10 @@ export default {
     },
     saveUser(user) {
       this.$store.dispatch('user/saveUser', user)
+    },
+    logout() {
+      this.$store.dispatch('auth/logout')
+      this.$router.push('/login')
     }
   },
   created() {

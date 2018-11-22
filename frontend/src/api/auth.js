@@ -8,6 +8,8 @@ mock.onPost('/login').reply(200, {
   authenticatedUser: { id: 1, email: 'test@example.com', token: 'foufhaeog' }
 })
 
+mock.onPost('/logout').reply(200)
+
 export default {
   signup(auth) {
     return instance
