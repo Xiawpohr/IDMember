@@ -221,6 +221,20 @@ This is a member system with crypto-payment feature.
     ```
 
 ## Build
+* Download Ganache
+  1. Go to [There](https://truffleframework.com/docs/ganache/quickstart) to download Ganache.
+  2. Or install ganache-cli
+    ```
+      npm install -g ganache-cli
+    ```
+
+* Open Ganache and setup test user accounts
+  1. Open Ganache app or open terminal to excute
+    ```
+      ganache-cli
+    ```
+  2. Copy the accounts to 'frontend/src/fixtures/accounts.js' 
+
 * Project setup
   ```
   cd frontend
