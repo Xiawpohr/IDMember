@@ -9,6 +9,7 @@ import (
 func main() {
 	app := gin.Default()
 	app.POST("/login", login)
+	app.POST("/logout", logout)
 	app.Run()
 }
 
@@ -45,7 +46,7 @@ func login(c *gin.Context) {
 			c.SetCookie("idmember_uid", "1", 3600, "/", "localhost", false, true)
 			c.JSON(http.StatusOK, gin.H{
 				"status":  http.StatusOK,
-				"message": "Log In Success.",
+				"message": "Log In Successfully.",
 				"user":    UserView{user.ID, user.Email, user.FirstName, user.LastName},
 			})
 		} else {
@@ -60,6 +61,22 @@ func login(c *gin.Context) {
 			"status":  http.StatusOK,
 			"message": "You have Logged in.",
 			"user":    UserView{user.ID, user.Email, user.FirstName, user.LastName},
+		})
+	}
+}
+
+func logout(c *gin.Context) {
+	_, err := c.Cookie("idmember_uid")
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"status":  http.StatusUnauthorized,
+			"message": "You have to been log in first.",
+		})
+	} else {
+		c.SetCookie("idmember_uid", "1", -1, "/", "localhost", false, true)
+		c.JSON(http.StatusOK, gin.H{
+			"status":  http.StatusOK,
+			"message": "Log Out Successfully.",
 		})
 	}
 }
