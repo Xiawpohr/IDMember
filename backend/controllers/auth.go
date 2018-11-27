@@ -35,3 +35,36 @@ func Signup(c *gin.Context) {
 		})
 	}
 }
+
+// Login controller
+func Login(c *gin.Context) {
+	var user models.User
+	db := c.MustGet("db").(*gorm.DB)
+
+	_, err := c.Cookie("idmember_uid")
+	if err != nil {
+		email := c.PostForm("email")
+		password := c.PostForm("password")
+		db.Where("email = ?", email).First(&user)
+		if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"status":  http.StatusUnauthorized,
+				"message": "Your email or password is valid.",
+				"user":    nil,
+			})
+		} else {
+			c.SetCookie("idmember_uid", "1", 3600, "/", "localhost", false, true)
+			c.JSON(http.StatusOK, gin.H{
+				"status":  http.StatusOK,
+				"message": "Log In Successfully.",
+				"user":    user.Serialize(),
+			})
+		}
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  http.StatusOK,
+			"message": "You have Logged in.",
+			"user":    user.Serialize(),
+		})
+	}
+}
