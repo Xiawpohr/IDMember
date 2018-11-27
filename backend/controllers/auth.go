@@ -53,7 +53,7 @@ func Login(c *gin.Context) {
 				"user":    nil,
 			})
 		} else {
-			c.SetCookie("idmember_uid", "1", 3600, "/", "localhost", false, true)
+			c.SetCookie("idmember_uid", strconv.Itoa(int(user.ID)), 3600, "/", "localhost", false, true)
 			c.JSON(http.StatusOK, gin.H{
 				"status":  http.StatusOK,
 				"message": "Log In Successfully.",
