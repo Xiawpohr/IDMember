@@ -32,6 +32,7 @@ func main() {
 		api.POST("/logout", controllers.Logout)
 		api.GET("/users", controllers.FetchAllUsers)
 		api.GET("/users/:slug", controllers.FetchSingleUser)
+		api.PUT("/users/currentUser", controllers.UpdateCurrentUser)
 	}
 
 	app.Run()

@@ -57,3 +57,29 @@ func FetchSingleUser(c *gin.Context) {
 		})
 	}
 }
+
+// UpdateCurrentUser controller
+func UpdateCurrentUser(c *gin.Context) {
+	var user models.User
+	db := c.MustGet("db").(*gorm.DB)
+
+	uid, authErr := c.Cookie("idmember_uid")
+	if authErr != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"status":  http.StatusUnauthorized,
+			"message": "You have to been log in first.",
+		})
+		return
+	}
+
+	if dbErr := db.Where("id = ?", uid).First(&user).Error; dbErr != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+	} else {
+		c.BindJSON(&user)
+		db.Save(&user)
+		c.JSON(http.StatusOK, gin.H{
+			"status": http.StatusOK,
+			"user":   user.Serialize(),
+		})
+	}
+}
