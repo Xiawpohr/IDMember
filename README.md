@@ -85,6 +85,7 @@ This is a member system with crypto-payment feature.
     ```
 * "/users"
   - Method: GET
+  - description: fetch all users
   - response example: 
    ```
     {
@@ -93,9 +94,9 @@ This is a member system with crypto-payment feature.
     }
    ```
 
-* "/users /:id"
-  - method: POST
-  - description: fetch all users
+* "/users/:id" or "/users/currentUser"
+  - method: PUT
+  - description: update user by id or current user
   - request body example:
     ```
       {
