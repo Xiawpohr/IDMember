@@ -68,3 +68,20 @@ func Login(c *gin.Context) {
 		})
 	}
 }
+
+// Logout controller
+func Logout(c *gin.Context) {
+	_, err := c.Cookie("idmember_uid")
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"status":  http.StatusUnauthorized,
+			"message": "You have to been log in first.",
+		})
+	} else {
+		c.SetCookie("idmember_uid", "", -1, "/", "localhost", false, true)
+		c.JSON(http.StatusOK, gin.H{
+			"status":  http.StatusOK,
+			"message": "Log Out Successfully.",
+		})
+	}
+}
