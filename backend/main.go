@@ -36,6 +36,10 @@ func main() {
 			userAPI.GET("/:slug", controllers.FetchSingleUser)
 			userAPI.PUT("/currentUser", controllers.UpdateCurrentUser)
 		}
+		friendAPI := api.Group("/friends", middlewares.Authenticated())
+		{
+			friendAPI.GET("/", controllers.FetchAllFriends)
+		}
 	}
 
 	app.Run()
