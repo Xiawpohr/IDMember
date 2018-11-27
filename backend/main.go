@@ -24,8 +24,14 @@ func main() {
 
 	app := gin.Default()
 	app.Use(middlewares.InjectDB(db))
-	app.POST("/signup", controllers.Signup)
-	app.POST("/login", controllers.Login)
-	app.POST("/logout", controllers.Logout)
+
+	api := app.Group("/api/v1")
+	{
+		api.POST("/signup", controllers.Signup)
+		api.POST("/login", controllers.Login)
+		api.POST("/logout", controllers.Logout)
+		api.GET("/users", controllers.FetchAllUsers)
+	}
+
 	app.Run()
 }
