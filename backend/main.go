@@ -20,7 +20,8 @@ func main() {
 	}
 	defer db.Close()
 
-	db.AutoMigrate(&models.User{})
+	db.LogMode(true)
+	db.AutoMigrate(&models.User{}, &models.Friendship{})
 
 	app := gin.Default()
 	app.Use(middlewares.InjectDB(db))
@@ -39,6 +40,7 @@ func main() {
 		friendAPI := api.Group("/friends", middlewares.Authenticated())
 		{
 			friendAPI.GET("/", controllers.FetchAllFriends)
+			friendAPI.POST("/request", controllers.RequestFriend)
 		}
 	}
 

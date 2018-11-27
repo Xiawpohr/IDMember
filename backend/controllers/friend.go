@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"IDMember/backend/models"
+
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -25,4 +27,35 @@ func FetchAllFriends(c *gin.Context) {
 			"friends": friendsJSON,
 		})
 	}
+}
+
+// FriendRequestBody type
+type FriendRequestBody struct {
+	UserID string `json:"userId" form:"userId"`
+}
+
+// RequestFriend controller
+func RequestFriend(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	user := c.MustGet("user").(models.User)
+	var friendRequestBody FriendRequestBody
+	c.BindJSON(&friendRequestBody)
+
+	var friend models.User
+	if err := db.Where("id = ?", friendRequestBody.UserID).First(&friend).Error; err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		return
+	}
+
+	intFriendID, _ := strconv.Atoi(friendRequestBody.UserID)
+
+	friendship := models.Friendship{
+		UserID:   user.ID,
+		FriendID: uint(intFriendID),
+	}
+	db.Create(&friendship)
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"friend": friend.Serialize(),
+	})
 }
