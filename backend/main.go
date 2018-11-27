@@ -30,9 +30,12 @@ func main() {
 		api.POST("/signup", controllers.Signup)
 		api.POST("/login", controllers.Login)
 		api.POST("/logout", controllers.Logout)
-		api.GET("/users", controllers.FetchAllUsers)
-		api.GET("/users/:slug", controllers.FetchSingleUser)
-		api.PUT("/users/currentUser", controllers.UpdateCurrentUser)
+		userAPI := api.Group("/users", middlewares.Authenticated())
+		{
+			userAPI.GET("/", controllers.FetchAllUsers)
+			userAPI.GET("/:slug", controllers.FetchSingleUser)
+			userAPI.PUT("/currentUser", controllers.UpdateCurrentUser)
+		}
 	}
 
 	app.Run()

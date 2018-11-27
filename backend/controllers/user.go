@@ -30,56 +30,33 @@ func FetchAllUsers(c *gin.Context) {
 // FetchSingleUser controller
 func FetchSingleUser(c *gin.Context) {
 	var user models.User
-	var userID string
 	db := c.MustGet("db").(*gorm.DB)
+	currentUser := c.MustGet("user").(models.User)
 	slug := c.Param("slug")
 
 	if slug == "currentUser" {
-		uid, authErr := c.Cookie("idmember_uid")
-		if authErr != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{
-				"status":  http.StatusUnauthorized,
-				"message": "You have to been log in first.",
-			})
-		} else {
-			userID = uid
-		}
+		user = currentUser
 	} else {
-		userID = slug
+		if dbErr := db.Where("id = ?", slug).First(&user).Error; dbErr != nil {
+			c.AbortWithStatus(http.StatusNotFound)
+		}
 	}
 
-	if dbErr := db.Where("id = ?", userID).First(&user).Error; dbErr != nil {
-		c.AbortWithStatus(http.StatusNotFound)
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"status": http.StatusOK,
-			"user":   user.Serialize(),
-		})
-	}
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"user":   user.Serialize(),
+	})
 }
 
 // UpdateCurrentUser controller
 func UpdateCurrentUser(c *gin.Context) {
-	var user models.User
 	db := c.MustGet("db").(*gorm.DB)
+	user := c.MustGet("user").(models.User)
 
-	uid, authErr := c.Cookie("idmember_uid")
-	if authErr != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"status":  http.StatusUnauthorized,
-			"message": "You have to been log in first.",
-		})
-		return
-	}
-
-	if dbErr := db.Where("id = ?", uid).First(&user).Error; dbErr != nil {
-		c.AbortWithStatus(http.StatusNotFound)
-	} else {
-		c.BindJSON(&user)
-		db.Save(&user)
-		c.JSON(http.StatusOK, gin.H{
-			"status": http.StatusOK,
-			"user":   user.Serialize(),
-		})
-	}
+	c.BindJSON(&user)
+	db.Save(&user)
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"user":   user.Serialize(),
+	})
 }
