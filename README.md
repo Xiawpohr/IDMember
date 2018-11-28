@@ -18,18 +18,23 @@ This is a member system with crypto-payment feature.
 
 ## Models: 
 > User  
-> * email  
-> * password  
-> * firstName
-> * lastName
-> * phone  
-> * gender  
-> * birthday
-> * bio  
-> * Ethereum Address  
+> * Email  
+> * Password  
+> * FirstName
+> * LastName
+> * Phone  
+> * Gender  
+> * Birthday
+> * Bio  
+> * Account
+
+> Friendship
+> * UserID
+> * FriendID
+> * IsConfirmed
 
 ## API Designs:
-* Base URL: '/api'
+* Base URL: '/api/v1'
 * "/login"
   - method: POST
   - request body example:
@@ -46,9 +51,7 @@ This is a member system with crypto-payment feature.
       //error
       {
         status: 400,
-        error: {
-          massenge: 'Something is wrong here.'
-        }
+        message: 'Something is wrong here.'
       }
     ```
 
@@ -59,7 +62,7 @@ This is a member system with crypto-payment feature.
       // success
       { status: 200 }
       // error
-      { status: 400, error: { massenge: 'Something is wrong here.' } }
+      { status: 400, message: 'Something is wrong here.' } 
     ```
 
 * "/signup"
@@ -78,9 +81,7 @@ This is a member system with crypto-payment feature.
       //error
       {
         status: 400,
-        error: {
-          massenge: 'Something is wrong here.'
-        }
+        message: 'Something is wrong here.'
       }
     ```
 * "/users"
