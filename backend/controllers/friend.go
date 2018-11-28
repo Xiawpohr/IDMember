@@ -59,3 +59,31 @@ func RequestFriend(c *gin.Context) {
 		"friend": friend.Serialize(),
 	})
 }
+
+// ConfirmFriend controller
+func ConfirmFriend(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	user := c.MustGet("user").(models.User)
+	var friendRequestBody FriendRequestBody
+	c.BindJSON(&friendRequestBody)
+
+	var friendship models.Friendship
+	err := db.Where("user_id = ? AND friend_id = ?", friendRequestBody.UserID, user.ID).First(&friendship).Error
+	if err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		return
+	}
+	friendship.IsConfirmed = true
+	db.Save(&friendship)
+
+	var friend models.User
+	if err := db.Where("id = ?", friendRequestBody.UserID).First(&friend).Error; err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"friend": friend.Serialize(),
+	})
+}

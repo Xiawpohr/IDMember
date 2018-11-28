@@ -31,16 +31,19 @@ func main() {
 		api.POST("/signup", controllers.Signup)
 		api.POST("/login", controllers.Login)
 		api.POST("/logout", controllers.Logout)
+
 		userAPI := api.Group("/users", middlewares.Authenticated())
 		{
 			userAPI.GET("/", controllers.FetchAllUsers)
 			userAPI.GET("/:slug", controllers.FetchSingleUser)
 			userAPI.PUT("/currentUser", controllers.UpdateCurrentUser)
 		}
+
 		friendAPI := api.Group("/friends", middlewares.Authenticated())
 		{
 			friendAPI.GET("/", controllers.FetchAllFriends)
 			friendAPI.POST("/request", controllers.RequestFriend)
+			friendAPI.POST("/confirm", controllers.ConfirmFriend)
 		}
 	}
 
