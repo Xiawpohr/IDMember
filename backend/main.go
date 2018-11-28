@@ -42,6 +42,7 @@ func main() {
 		friendAPI := api.Group("/friends", middlewares.Authenticated())
 		{
 			friendAPI.GET("/", controllers.FetchAllFriends)
+			friendAPI.GET("/requests", controllers.FetchAllFriendRequests)
 			friendAPI.POST("/request", controllers.RequestFriend)
 			friendAPI.POST("/confirm", controllers.ConfirmFriend)
 		}

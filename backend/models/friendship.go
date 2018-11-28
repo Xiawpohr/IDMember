@@ -7,7 +7,7 @@ import (
 // Friendship type
 type Friendship struct {
 	gorm.Model
-	UserID      uint
-	FriendID    uint
-	IsConfirmed bool `gorm:"default:false"`
+	UserID      uint `json:"from"`
+	FriendID    uint `json:"to"`
+	IsConfirmed bool `json:"-" gorm:"default:false"`
 }
