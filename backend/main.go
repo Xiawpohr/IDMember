@@ -43,6 +43,7 @@ func main() {
 		{
 			friendAPI.GET("/", controllers.FetchAllFriends)
 			friendAPI.GET("/requests", controllers.FetchAllFriendRequests)
+			friendAPI.GET("/confirmations", controllers.FetchAllFriendConfirmations)
 			friendAPI.POST("/request", controllers.RequestFriend)
 			friendAPI.POST("/confirm", controllers.ConfirmFriend)
 		}

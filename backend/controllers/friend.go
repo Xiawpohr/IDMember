@@ -46,6 +46,23 @@ func FetchAllFriendRequests(c *gin.Context) {
 	})
 }
 
+// FetchAllFriendConfirmations controller
+func FetchAllFriendConfirmations(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	user := c.MustGet("user").(models.User)
+
+	var friendConfirmations []models.Friendship
+	if err := db.Where("friend_id = ? AND is_confirmed = ?", user.ID, false).Find(&friendConfirmations).Error; err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":              http.StatusOK,
+		"friendConfirmations": friendConfirmations,
+	})
+}
+
 // FriendRequestBody type
 type FriendRequestBody struct {
 	UserID string `json:"userId" form:"userId"`
