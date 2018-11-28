@@ -26,6 +26,7 @@ type User struct {
 func (u *User) Serialize() JSON {
 	return JSON{
 		"id":        u.ID,
+		"account":   u.Account,
 		"email":     u.Email,
 		"firstName": u.FirstName,
 		"lastName":  u.LastName,

@@ -9,6 +9,7 @@ import (
 	"github.com/icrowley/fake"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var db *gorm.DB
@@ -21,13 +22,19 @@ func main() {
 	}
 	defer db.Close()
 
-	db.DropTableIfExists("users", "friendships", "people")
+	db.DropTableIfExists("users", "friendships")
 	db.CreateTable(&models.User{}, &models.Friendship{})
+
 	users := generateUsers()
 	for _, user := range users {
 		db.Create(&user)
 	}
 
+	db.Find(&users)
+	friendships := generateFriendship(users)
+	for _, friendship := range friendships {
+		db.Create(&friendship)
+	}
 }
 
 func generateUsers() []models.User {
@@ -44,21 +51,63 @@ func generateUsers() []models.User {
 		"0x85c308Cb23d7a7e59C98B4b12915d1DB5577970f",
 	}
 
+	currentUserPassword := "Aa=123"
+	hash, _ := bcrypt.GenerateFromPassword([]byte(currentUserPassword), bcrypt.DefaultCost)
+
 	var users []models.User
 	for i := 0; i < len(accounts); i++ {
-		users = append(users, models.User{
-			Email:     fake.EmailAddress(),
-			Password:  "Aa=123",
-			Account:   accounts[i],
-			FirstName: fake.FirstName(),
-			LastName:  fake.LastName(),
-			Phone:     fake.Phone(),
-			Bio:       fake.Sentences(),
-			Gender:    fake.Gender(),
-			Birthday:  getBirthday(fake.Year(1900, 2000), fake.MonthNum(), fake.Day()),
-		})
+		if i == 0 {
+			users = append(users, models.User{
+				Email:     "test@example.com",
+				Password:  string(hash),
+				Account:   accounts[i],
+				FirstName: "Arthur",
+				LastName:  "Hsiao",
+				Phone:     "0956930623",
+				Bio:       "hello, I am Arthur Hsiao.",
+				Gender:    "male",
+				Birthday:  getBirthday(1993, 6, 23),
+			})
+		} else {
+			users = append(users, models.User{
+				Email:     fake.EmailAddress(),
+				Password:  fake.SimplePassword(),
+				Account:   accounts[i],
+				FirstName: fake.FirstName(),
+				LastName:  fake.LastName(),
+				Phone:     fake.Phone(),
+				Bio:       fake.Sentences(),
+				Gender:    fake.Gender(),
+				Birthday:  getBirthday(fake.Year(1900, 2000), fake.MonthNum(), fake.Day()),
+			})
+		}
 	}
 	return users
+}
+
+func generateFriendship(a []models.User) []models.Friendship {
+	var friendships []models.Friendship
+	currentUser := a[0]
+	willConfirmFriend := a[1]
+	friends := a[2:9]
+	requestedFriend := a[9]
+	friendships = append(friendships, models.Friendship{
+		UserID:   willConfirmFriend.ID,
+		FriendID: currentUser.ID,
+	})
+	for _, friend := range friends {
+		friendships = append(friendships, models.Friendship{
+			UserID:      currentUser.ID,
+			FriendID:    friend.ID,
+			IsConfirmed: true,
+		})
+	}
+	friendships = append(friendships, models.Friendship{
+		UserID:      currentUser.ID,
+		FriendID:    requestedFriend.ID,
+		IsConfirmed: false,
+	})
+	return friendships
 }
 
 func getBirthday(y int, m int, d int) string {
